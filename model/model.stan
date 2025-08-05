@@ -8,18 +8,18 @@ data {
 }
 
 parameters {
-  real beta_0;
-  vector[P] beta;
-  vector<lower=0>[K] alpha;
-  vector<lower=0>[K] nu;
-  vector<lower=0, upper=1>[K] Z;
+  real beta_0; //intercept 
+  vector[P] beta; //regression coefficients 
+  vector<lower=0>[K] alpha; //for probability of reporting
+  vector<lower=0>[K] nu; //for probability of reporting
+  vector<lower=0, upper=1>[K] Z; //if death is reported or not
 }
 
 transformed parameters {
-  vector<lower=0, upper=1>[K] gamma;
-  vector<lower=0, upper=1>[A] eps;
-  vector<lower=0>[A] lambda;
-  vector[A] eta;
+  vector<lower=0, upper=1>[K] gamma; //underreporting probability
+  vector<lower=0, upper=1>[A] eps; //reporting probability
+  vector<lower=0>[A] lambda; //mean rate in each area 
+  vector[A] eta; //relative risk(?)
 
   gamma[1] = Z[1];
   for (k in 2:K) {
