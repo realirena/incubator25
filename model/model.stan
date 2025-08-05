@@ -3,6 +3,7 @@ data {
   int<lower=1> K;                     // Number of clusters
   int<lower=0> y[A];                  // Observed counts
   vector<lower=0>[A] E;               // Expected counts
+  int<lower=1> P;                     // Number of covariates
   matrix[A, P] X;                     // Covariate matrix (P covariates)
   matrix[K, A] H;                     // Split-coded matrix H[k, i] = h_ki
 }
@@ -21,6 +22,7 @@ transformed parameters {
   vector<lower=0>[A] lambda; //mean rate in each area 
   vector[A] eta; //relative risk(?)
 
+
   gamma[1] = Z[1];
   for (k in 2:K) {
     real prod = 1.0;
@@ -32,8 +34,8 @@ transformed parameters {
 
   for (i in 1:A) {
     eps[i] = 1.0 - dot_product(H[, i], gamma);
-    eta[i] = beta_0 + dot_product(X[i], beta);
-    lambda[i] = E[i] * exp(eta[i]) * eps[i];
+    eta[i] = beta_0 + dot_product(X[i], beta); 
+    lambda[i] = E[i] * exp(eta[i]) * eps[i]; 
   }
 }
 
@@ -42,11 +44,11 @@ model {
   beta_0 ~ normal(0, 5);
   beta ~ normal(0, 2);
 
-  alpha ~ gamma(2, 0.5);
-  nu ~ gamma(2, 0.5);
+  alpha ~ gamma(2, 0.5); 
+  nu ~ gamma(2, 0.5); 
 
   for (k in 1:K)
-    Z[k] ~ beta(alpha[k], nu[k]);
+    Z[k] ~ beta(alpha[k], nu[k]);  
 
   // Likelihood
   for (i in 1:A)
