@@ -65,7 +65,7 @@ stan_data <- list(
 
 # fit
 fit <- stan(
-  file = "model.stan",
+  file = "U:/Documents/repos/incubator25/model/model.stan",
   data = stan_data,
   iter = 2000,
   warmup = 1000,
@@ -74,3 +74,14 @@ fit <- stan(
   seed = 123,
   control = list(adapt_delta = 0.95)
 )
+
+traceplot(fit, pars=c("alpha", "nu"))
+traceplot(fit, pars=c("beta_0", "beta"))
+
+plot(fit, pars=c("beta_0", "beta"))
+plot(fit, pars=c("alpha", "nu"))
+
+summary(fit, pars=c("alpha", "nu"))
+summary(fit, pars=c("beta_0", "beta"))$summary
+
+
