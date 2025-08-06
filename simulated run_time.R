@@ -1,3 +1,4 @@
+rm(list=ls())
 library(rstan)
 library(dplyr)
 library(splines)
@@ -83,6 +84,8 @@ stan_data <- list(
   y = y,
   E = E,
   X = X,
+  ids = ids,
+  time = time_bs,
   H = H
 )
 
@@ -99,9 +102,9 @@ fit <- stan(
 )
 
 traceplot(fit, pars=c("alpha", "nu"))
-traceplot(fit, pars=c("beta_0", "beta"))
+traceplot(fit, pars=c("beta_0", "beta", "b_k"))
 
-plot(fit, pars=c("beta_0", "beta"))
+plot(fit, pars=c("beta_0", "beta", "b_k"))
 plot(fit, pars=c("alpha", "nu"))
 
 summary(fit, pars=c("alpha", "nu"))
