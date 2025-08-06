@@ -7,7 +7,7 @@ data {
   int y[J];                  // Observed counts
   vector<lower=0>[J] E;               // Expected counts 
   int<lower=1> P;                     // Number of covariates
-  matrix[J, P] X;                     // Covariate matrix (P covariates) - can be time varying or not
+  matrix[A, P] X;                     // Covariate matrix (P covariates) - can be time varying or not
   matrix[J, b_s] time;               // time variable (as b-splines)
   matrix[K, A] H;                     // Split-coded matrix H[k, i] = h_ki
 }
